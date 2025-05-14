@@ -11,7 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\DWShop.Application\DWShop.Application.csproj" />
+    <ProjectReference Include="..\DWShop.Domain\DWShop.Domain.csproj" />
+    <ProjectReference Include="..\DWShop.Infrastructure\DWShop.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

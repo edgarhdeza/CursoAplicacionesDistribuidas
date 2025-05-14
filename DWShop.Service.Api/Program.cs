@@ -1,3 +1,5 @@
+using DWShop.Infrastructure.Extensions;
+using DWShop.Service.Api.Middleware;
 
 namespace DWShop.Service.Api
 {
@@ -13,6 +15,8 @@ namespace DWShop.Service.Api
 			// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 			builder.Services.AddOpenApi();
 
+			builder.Services.RegisterInfrastructure();
+
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
@@ -20,6 +24,8 @@ namespace DWShop.Service.Api
 			{
 				app.MapOpenApi();
 			}
+
+			app.UseMiddleware<ExceptionMiddleware>();
 
 			app.UseAuthorization();
 
