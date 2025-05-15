@@ -47,7 +47,18 @@ namespace DWShop.Infrastructure.Repositories
 			return await (orderBy is not null ? orderBy(query) : query).ToListAsync();
 		}
 
+		public async Task<List<T>> GetFindAsync(Expression<Func<T, bool>> predicate)
+		{
+			IQueryable<T> query = context.Set<T>();
 
+			// Si hubo where lo agregamos
+			if (predicate is not null)
+			{
+				query = query.Where(predicate);
+			}
+
+			return await query.ToListAsync();
+		}
 
 
 		public async Task SaveChangesAsync() => await context.SaveChangesAsync();

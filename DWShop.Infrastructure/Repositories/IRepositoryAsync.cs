@@ -14,6 +14,8 @@ namespace DWShop.Infrastructure.Repositories
 			Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy, 
 			params string[] IncludeStrings);
 
+		Task<List<T>> GetFindAsync(Expression<Func<T, bool>> predicate);
+
 		Task SaveChangesAsync();
 
 		Task UpdateAsync(T entity);

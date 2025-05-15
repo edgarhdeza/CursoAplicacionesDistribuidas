@@ -3,6 +3,7 @@ using Azure.Core;
 using DWShop.Infrastructure.Repositories;
 using DWShop.Shared.Wrapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace DWShop.Application.Features.Catalog.Commands.Create
 {
@@ -10,15 +11,24 @@ namespace DWShop.Application.Features.Catalog.Commands.Create
 	{
 		private readonly IMapper mapper;
 		private readonly IRepositoryAsync<Domain.Entities.Catalog, int> repositoryAsync;
+		private readonly IRepositoryAsync<Domain.Entities.Category, int> categoryRepoAsync;
 
-		public CreateCatalogCommandHandler(IMapper mapper, IRepositoryAsync<Domain.Entities.Catalog, int> repositoryAsync)
+		public CreateCatalogCommandHandler(IMapper mapper, IRepositoryAsync<Domain.Entities.Catalog, int> repositoryAsync, IRepositoryAsync<Domain.Entities.Category, int> categoryRepoAsync)
 		{ 
 			this.mapper = mapper;
 			this.repositoryAsync = repositoryAsync;
+			this.categoryRepoAsync = categoryRepoAsync;
 		}
 
 		public async Task<IResult<int>> Handle(CreateCatalogCommand request, CancellationToken cancellationToken)
 		{
+			var existCategory = await categoryRepoAsync.GetByIdAsync(request.CategoryId);
+
+			if (existCategory == null)
+			{
+				return Result<int>.Fail("No existe la categoria");
+			}
+
 
 			var catalogDb = await repositoryAsync.GetPagedAsync(1, 1, x => x.Name == request.Name, default);
 

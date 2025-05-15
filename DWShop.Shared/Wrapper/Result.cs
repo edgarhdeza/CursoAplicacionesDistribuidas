@@ -44,7 +44,7 @@
 
 		public static IResult Success(string message)
 		{
-			return new Result { Succeded = true, Messages = { message } };
+			return new Result { Succeded = true, Messages = new() { message } };
 		}
 
 		public static IResult Success(List<string> messages)
@@ -64,7 +64,7 @@
 
 		public new static Result<T> Fail(string message)
 		{
-			return new Result<T> { Succeded = false, Messages = { message } };
+			return new Result<T> { Succeded = false, Messages = new() { message } };
 		}
 
 		public new static Result<T> Fail(List<string> messages)
@@ -84,7 +84,7 @@
 
 		public new static Result<T> Success(T data, string message)
 		{
-			return new Result<T> { Succeded = true, Data = data, Messages = { message } };
+			return new Result<T> { Succeded = true, Data = data, Messages = new() { message } };
 		}
 
 
