@@ -72,6 +72,18 @@
 			return new Result<T> { Succeded = false, Messages = messages };
 		}
 
+		public new static Task<Result<T>> FailAsync(string message)
+		{
+			return Task.FromResult(Fail(message));
+		}
+
+		public new static Task<Result<T>> FailAsync(List<string> messages)
+		{
+			return Task.FromResult(Fail(messages));
+		}
+
+
+		
 		public new static Result<T> Success()
 		{
 			return new Result<T> { Succeded = true };

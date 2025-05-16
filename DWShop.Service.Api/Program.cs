@@ -48,7 +48,7 @@ namespace DWShop.Service.Api
 					options.TokenValidationParameters = new()
 					{
 						ValidateIssuerSigningKey = true,
-						IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("AFWeGdf34qGE34r5we4g")),
+						IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["identity:key"]!)), //"AFWeGdf34qGE34r5we4g")),
 						ValidateIssuer = false,
 						ValidateAudience = false,
 					};

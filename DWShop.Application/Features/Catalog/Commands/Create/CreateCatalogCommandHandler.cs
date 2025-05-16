@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using Azure.Core;
 using DWShop.Infrastructure.Repositories;
 using DWShop.Shared.Wrapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace DWShop.Application.Features.Catalog.Commands.Create
 {

@@ -3,11 +3,6 @@ using DWShop.Infrastructure.Services;
 using DWShop.Shared.Wrapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DWShop.Application.Features.Identity.Commands.Register
 {
@@ -24,9 +19,27 @@ namespace DWShop.Application.Features.Identity.Commands.Register
 			this.mapper = mapper;
 		}
 
-		public Task<Result<string>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+		public async Task<Result<string>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			var user = mapper.Map<IdentityUser>(request);
+
+			if (await accountService.UserExists(request.UserName))
+			{
+				return await Result<string>.FailAsync("El usuario ya existe");
+			}
+
+			user.Id = Guid.NewGuid().ToString();
+
+			var result = await userManager.CreateAsync(user, request.Password);
+
+			if (!result.Succeeded)
+			{
+				return await Result<string>.FailAsync(result.Errors.Select(x => x.Description).ToList());
+			}
+
+			var token = await accountService.GetToken(user);
+
+			return Result<string>.Success(token, "");
 		}
 	}
 }
