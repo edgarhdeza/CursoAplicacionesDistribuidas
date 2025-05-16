@@ -14,13 +14,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DWShop.Domain\DWShop.Domain.csproj" />
     <ProjectReference Include="..\DWShop.Infrastructure\DWShop.Infrastructure.csproj" />
     <ProjectReference Include="..\DWShop.Shared\DWShop.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
   </ItemGroup>
 
 </Project>

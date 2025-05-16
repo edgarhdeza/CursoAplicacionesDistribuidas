@@ -1,7 +1,12 @@
 using DWShop.Application.Extensions;
+using DWShop.Infrastructure.Context;
 using DWShop.Infrastructure.Extensions;
 using DWShop.Service.Api.Middleware;
 using DWShop.Service.Api.Modules;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace DWShop.Service.Api
 {
@@ -23,6 +28,32 @@ namespace DWShop.Service.Api
 
 			builder.Services.RegisterApplication();
 
+			builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+			{
+				options.SignIn.RequireConfirmedAccount = false;
+				options.Password.RequireNonAlphanumeric = true;
+				options.Password.RequireLowercase = true;
+				options.Lockout.MaxFailedAccessAttempts = 10;
+			})
+				.AddRoles<IdentityRole>()
+				.AddSignInManager<SignInManager<IdentityUser>>()
+				.AddRoleValidator<RoleValidator<IdentityRole>>()
+				.AddEntityFrameworkStores<AuditableContext>();
+
+			builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(options =>
+				{
+					options.RequireHttpsMetadata = false;
+					options.SaveToken = true;
+					options.TokenValidationParameters = new()
+					{
+						ValidateIssuerSigningKey = true,
+						IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("AFWeGdf34qGE34r5we4g")),
+						ValidateIssuer = false,
+						ValidateAudience = false,
+					};
+				});
+
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
@@ -37,6 +68,8 @@ namespace DWShop.Service.Api
 					x.RoutePrefix = "";
 				});
 			}
+
+			app.UseAuthentication();
 
 			app.UseMiddleware<ExceptionMiddleware>();
 
