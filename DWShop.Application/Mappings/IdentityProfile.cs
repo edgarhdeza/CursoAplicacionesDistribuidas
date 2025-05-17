@@ -1,11 +1,7 @@
 ﻿using AutoMapper;
 using DWShop.Application.Features.Identity.Commands.Register;
+using DWShop.Application.Responses.Identity;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DWShop.Application.Mappings
 {
@@ -14,6 +10,8 @@ namespace DWShop.Application.Mappings
 		public IdentityProfile() 
 		{
 			CreateMap<RegisterUserCommand, IdentityUser>().ReverseMap();
+
+			CreateMap<LoginResponse, IdentityUser>().ReverseMap();
 		}
 	}
 }
