@@ -8,7 +8,7 @@ namespace DWShop.Application.Responses.Identity
 {
 	public class RoleResponse
 	{
-		public string RoleId { get; set; }
-		public string Role {  get; set; }
+		public string Id { get; set; }
+		public string Name {  get; set; }
 	}
 }

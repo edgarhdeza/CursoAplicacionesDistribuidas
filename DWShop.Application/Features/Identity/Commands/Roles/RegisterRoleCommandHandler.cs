@@ -40,11 +40,8 @@ namespace DWShop.Application.Features.Identity.Commands.Roles
 
 			var role = await roleManager.FindByNameAsync(request.RoleName);
 
-			var roleResult = new RoleResponse
-			{
-				Role = role.Name!,
-				RoleId = role.Id
-			};
+			var roleResult = mapper.Map<RoleResponse>(role);
+
 
 			return await Result<RoleResponse>.SuccessAsync(roleResult, "");
 		}

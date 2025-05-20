@@ -43,14 +43,16 @@ namespace DWShop.Application.Features.Identity.Commands.GetRoles
 
 			var rolesAsignados = new List<RoleResponse>();
 
+			// Como mapear la lista ToDo
+
 			foreach (var tmp in roles)
 			{
 				var roleInfo = await roleManager.FindByNameAsync(tmp);
 
 				rolesAsignados.Add(new()
 				{
-					Role = roleInfo.Name,
-					RoleId = roleInfo.Id
+					Name = roleInfo.Name,
+					Id = roleInfo.Id
 				});
 			}
 
