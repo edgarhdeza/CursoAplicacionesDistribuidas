@@ -1,0 +1,39 @@
+﻿@page "/Login"
+@using Blazored.FluentValidation
+
+<EditForm Model="@_TokenModel" OnValidSubmit="SubmitAsync">
+    @* <FluentValidationValidator/> *@
+    <MudGrid>
+        <MudItem xs="12">
+            <MudText Typo="Typo.h4">Tienda DW</MudText>
+        </MudItem>
+
+        <MudItem xs="12">
+            <MudText Typo="Typo.h4">Bienvenido a la tienda DW</MudText>
+        </MudItem>
+
+        <MudItem xs="12">
+            <MudTextField T="string" 
+                          Label="Usuario"
+                          @bind-Value="_TokenModel.UserName"
+                          For="@(() => _TokenModel.UserName)"/>
+
+            <MudTextField T="string"
+                          Label="Contraseña"
+                          InputType="InputType.Password"
+                          @bind-Value="_TokenModel.Password"
+                          For="@(() => _TokenModel.Password)"/>
+        </MudItem>
+
+        <MudItem xs="12">
+            <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary">Login</MudButton>
+        </MudItem>
+    </MudGrid>
+</EditForm>
+
+@* <h3>Login</h3>
+
+@code {
+
+}
+ *@

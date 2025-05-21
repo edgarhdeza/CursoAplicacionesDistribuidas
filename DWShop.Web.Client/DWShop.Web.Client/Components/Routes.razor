@@ -1,0 +1,19 @@
+﻿@using DWShop.Web.Client.Client.Layout
+@using Microsoft.AspNetCore.Components.Authorization
+@using DWShop.Web.Client.Client.Pages
+
+<Router AppAssembly="@typeof(Program).Assembly" AdditionalAssemblies="new[] { typeof(Client._Imports).Assembly }">
+    <Found Context="routerData">
+        <AuthorizeRouteView RouteData="@routerData" DefaultLayout="@typeof(MainLayout)">
+            <NotAuthorized>
+                <Login /> @* Aqui poner el login *@
+            </NotAuthorized>
+        </AuthorizeRouteView>
+    </Found>
+
+    <NotFound>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <p>No hay nada aqui</p>
+        </LayoutView>
+    </NotFound>
+</Router>

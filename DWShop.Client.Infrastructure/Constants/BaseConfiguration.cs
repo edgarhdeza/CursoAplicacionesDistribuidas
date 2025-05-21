@@ -10,6 +10,6 @@ namespace DWShop.Client.Infrastructure.Constants
 	{
 		public const string AuthToken = "authToken";
 		public const string Schema = "Bearer";
-		public const string BaseAddress = "Localhost";
+		public const string BaseAddress = "http://Localhost";
 	}
 }
