@@ -1,0 +1,93 @@
+﻿@page "/categories"
+@using DWShop.Application.Features.Category.Commands.Create
+@using DWShop.Application.Responses.Category
+
+<MudText Typo="Typo.h3">Categorias</MudText>
+<MudSpacer/>
+<MudButton ButtonType="ButtonType.Button" @onclick="AddCategory" Variant="Variant.Filled" Color="Color.Info">Agregar</MudButton>
+
+<MudTable Items="@Elements" Filter="FilterFunc">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Categorias</MudText>        
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString"
+        Placeholder="Buscar"
+        Adornment="Adornment.Start"
+        AdornmentIcon="@Icons.Material.Filled.Search"
+        IconSize="Size.Medium" />
+    </ToolBarContent>
+
+    <HeaderContent>
+        <MudTh>Nombre</MudTh>
+        <MudTh>Acciones</MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+        <MudTd DataLabel="Nombre">@context.Name</MudTd>
+        <MudTd DataLabel="Acciones">
+            <MudMenu Label="Acciones" EndIcon="@Icons.Material.Filled.ArrowDropDown">
+                <MudMenuItem @onclick="@(() => InvokeModal(context.Id))">Editar</MudMenuItem>
+                <MudMenuItem>Eliminar</MudMenuItem>
+            </MudMenu>
+        </MudTd>
+    </RowTemplate>
+</MudTable>
+
+@code
+{
+    public IEnumerable<CategoryResponse> Elements;
+    private string searchString = string.Empty;
+
+    private bool FilterFunc(CategoryResponse element)
+    {
+        if (string.IsNullOrEmpty(searchString))
+            return true;
+
+        return element.Name.Contains(searchString);
+    }
+
+    private async Task InvokeModal(int Id)
+    {
+        var parameters = new DialogParameters();
+        var category = Elements.First(x => x.Id == Id);
+        parameters.Add(nameof(CategoryDetail.CategoryCommand), new CreateCategoryCommand
+            {
+                Name = category.Name
+            });
+
+        parameters.Add(nameof(CategoryDetail.IsEdit), true);
+
+        var options = new DialogOptions() { CloseButton = true };
+
+        var dialog = await _dialogService.ShowAsync<CategoryDetail>("Editar Categoria", parameters, options);
+
+        var result = await dialog.Result;
+    }
+
+    private async Task AddCategory()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(CategoryDetail.CategoryCommand), new CreateCategoryCommand());
+        parameters.Add(nameof(CategoryDetail.IsEdit), false);
+
+        var options = new DialogOptions() { CloseButton = true };
+
+        var dialog = await _dialogService.ShowAsync<CategoryDetail>("Agregar Categoria", parameters, options);
+
+        var result = await dialog.Result;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Elements = new List<CategoryResponse>
+        {
+            new CategoryResponse { Id = 1, Name = "Categoria 1" },
+            new CategoryResponse { Id = 2, Name = "Categoria 2" },
+            new CategoryResponse { Id = 3, Name = "Categoria 3" },
+            new CategoryResponse { Id = 4, Name = "Categoria 4" },
+            new CategoryResponse { Id = 5, Name = "Categoria 5" },
+        };
+
+        base.OnInitialized();
+    }
+}

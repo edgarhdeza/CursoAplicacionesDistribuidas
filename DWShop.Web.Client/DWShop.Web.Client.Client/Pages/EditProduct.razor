@@ -34,6 +34,10 @@
                 <MudItem md="6">
                     <MudTextField For="() => ProductCommand.PhotoURL" @bind-Value="ProductCommand.PhotoURL" Label="Photo" />
                 </MudItem>
+
+                <MudItem xs="12">
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Guardar</MudButton>
+                </MudItem>
             </MudGrid>
         </DialogContent>
     </MudDialog>
@@ -47,8 +51,8 @@
     [CascadingParameter]
     private IMudDialogInstance DialogInstance { get; set; }
 
-    [Inject]
-    ISnackbar _snackbar { get; set; }
+    //[Inject]
+    //ISnackbar _snackbar { get; set; }
 
     private async Task InvalidSubmit()
     {
