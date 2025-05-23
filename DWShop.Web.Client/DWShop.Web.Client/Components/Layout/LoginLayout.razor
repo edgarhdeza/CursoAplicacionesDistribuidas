@@ -1,0 +1,28 @@
+﻿@using MudBlazor
+@inherits LayoutComponentBase
+
+@* <style>
+    body {
+        background-color: #777777;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+</style> *@
+
+<MudThemeProvider />
+<MudPopoverProvider />
+
+@* Needed for dialogs *@
+<MudDialogProvider />
+
+@* Needed for snackbars *@
+<MudSnackbarProvider />
+
+<MudContainer MaxWidth="MaxWidth.False" Style="align-content: center; display: flex; justify-content: center; align-items: center; height: 100vh;">
+    <MudPaper Elevation="3" style="min-width: 350px; max-width: 600px; border-radius: 8px;" Class="pa-5">
+        @Body
+    </MudPaper>
+</MudContainer>

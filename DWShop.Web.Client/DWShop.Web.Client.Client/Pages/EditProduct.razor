@@ -1,0 +1,57 @@
+﻿@using Blazored.FluentValidation
+@using DWShop.Application.Features.Catalog.Commands.Create
+
+<EditForm Model="@ProductCommand" OnInvalidSubmit="InvalidSubmit">
+    <FluentValidationValidator />
+
+    <MudDialog>
+        <TitleContent>
+            <MudText Typo="Typo.h6"> <MudIcon Icon="@Icons.Material.Filled.Add"/> </MudText>
+        </TitleContent>
+
+        <DialogContent>
+            <MudGrid>
+                <MudItem md="6">
+                    <MudTextField For="() => ProductCommand.Name" @bind-Value="ProductCommand.Name" Label="Nombre"/>
+                </MudItem>
+
+                <MudItem md="6">
+                    <MudTextField For="() => ProductCommand.CategoryId" @bind-Value="ProductCommand.CategoryId" Label="Categoria" />
+                </MudItem>
+
+                <MudItem md="6">
+                    <MudTextField For="() => ProductCommand.Description" @bind-Value="ProductCommand.Description" Label="Descripción" />
+                </MudItem>
+
+                <MudItem md="6">
+                    <MudTextField For="() => ProductCommand.Summary" @bind-Value="ProductCommand.Summary" Label="Resumen" />
+                </MudItem>
+
+                <MudItem md="6">
+                    <MudTextField For="() => ProductCommand.Price" @bind-Value="ProductCommand.Price" Label="Precio" />
+                </MudItem>
+
+                <MudItem md="6">
+                    <MudTextField For="() => ProductCommand.PhotoURL" @bind-Value="ProductCommand.PhotoURL" Label="Photo" />
+                </MudItem>
+            </MudGrid>
+        </DialogContent>
+    </MudDialog>
+</EditForm>
+
+@code 
+{
+    [Parameter]
+    public CreateCatalogCommand ProductCommand { get; set; } = new();
+
+    [CascadingParameter]
+    private IMudDialogInstance DialogInstance { get; set; }
+
+    [Inject]
+    ISnackbar _snackbar { get; set; }
+
+    private async Task InvalidSubmit()
+    {
+        _snackbar.Add("Revise todos los campos", Severity.Error);
+    }
+}
